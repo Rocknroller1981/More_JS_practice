@@ -59,3 +59,25 @@ console.log(band.favSong.apply(band2, ['plush']))
     // можно и через переменную на примере call
 let final = band.getBand.call(band2)
 console.log(final)
+
+function Electro(band, location, found) {
+    this.genre = 'electronic'
+    this.origins = 'disco'
+    this.subgenre = 'bigbeat'
+    this.band = band
+    this.location = location
+    this.found = found
+}
+
+const chemical = new Electro('the chemical brothers', 'UK', 1992)
+chemical.getTrack = function(track) { console.log(`my favourite track by ${this.band} is ${track}`) }
+console.log(chemical)
+chemical.getTrack('got glint?')
+
+
+const prodigy = new Electro('the prodigy', 'UK', 1991)
+
+chemical.getTrack.bind(prodigy)('poison')
+Electro.prototype.lastListen = function(year) { console.log(`i listened ${this.band} last time in ${year}`) }
+chemical.lastListen(2021)
+prodigy.lastListen(2020)
