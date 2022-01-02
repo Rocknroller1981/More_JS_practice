@@ -81,3 +81,21 @@ chemical.getTrack.bind(prodigy)('poison')
 Electro.prototype.lastListen = function(year) { console.log(`i listened ${this.band} last time in ${year}`) }
 chemical.lastListen(2021)
 prodigy.lastListen(2020)
+
+//ниже работаем с прототипным наследованием и полиморфизмом. Создаем дочерний конструктор TripHop со своими свойствами
+
+function TripHop(band, hit) {
+    this.band = band
+    this.hit = hit
+}
+
+//затем создадим делигирующую связь между функциями-конструкторами 
+TripHop.prototype = new Electro()
+    // создаем объект
+const massive = new TripHop('massive attack', 'angel')
+    //console.log(massive)
+    // т.к. связь установлена, то работают методы первого конструктора Electro
+chemical.getTrack.bind(massive)('angel')
+    //и вынесенный метод тожде, при этом мы изменили исполняемый код (другой текст выводится в консоль)
+TripHop.prototype.lastListen = function(year) { console.log(`i listened TO ${this.band} last time in ${year} quite a time, innit?`) }
+massive.lastListen(2018)
