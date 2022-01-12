@@ -1,0 +1,183 @@
+<div class="valid-form">
+    <h3>Please, Sign In</h3>
+    <form class="main" action="">
+        <div class="input-data">
+            <input type="email" class="form-input get-email" id="client-email" name="email" placeholder="Enter you email" required>
+        </div>
+        <div class="input-data">
+            <input type="password" class="form-input get-password" id="client-password" name="password" placeholder="Enter you password" required>
+        </div>
+        <div class="input-data">
+            <button class="btn" type="submit">Sign In</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .valid-form,
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .valid-form {
+        width: 500px;
+        border: 2px solid orange;
+        border-radius: 10px;
+        background: lightgray
+    }
+    
+    .input-data {
+        margin: 10px;
+    }
+    
+    .form-input {
+        width: 300px;
+        height: 26px;
+        color: red;
+        font: italic 14px Arial;
+    }
+    
+    .get-checkbox {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+    
+    .last {
+        display: flex;
+        flex-direction: row;
+        width: 300px;
+        height: 26px;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 160px;
+        height: 26px;
+        background: orange;
+        font: bold 13px Arial;
+    }
+    
+    .noname {
+        margin-left: 25px;
+        font: 13px Arial;
+    }
+    
+    .btn:hover {
+        cursor: pointer;
+        opacity: 70%;
+    }
+    
+    .get-checkbox+label::before {
+        content: "";
+        width: 13px;
+        height: 13px;
+        background: white;
+        border: 1px solid black;
+        border-radius: 3px;
+        display: inline-flex;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        right: 0px;
+        position: relative;
+    }
+    
+    .get-checkbox:checked+label::before {
+        content: "X";
+        color: black;
+        font: bold 13px Arial;
+        background: orange;
+        cursor: pointer;
+    }
+    
+    .get-checkbox:hover+label {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+    
+    .error {
+        background: pink;
+    }
+    
+    .stop {
+        background: red;
+    }
+    
+    .success {
+        background: green
+    }
+</style>
+
+<script>
+    let form = document.querySelector('.main');
+    let allInputs = document.querySelectorAll('.form-input');
+    let getEmail = document.querySelector('.get-email');
+    let getPassword = document.querySelector('.get-password');
+    let button = document.querySelector('.btn')
+    const persons = [{
+        id: '1',
+        email: 'ivan@mail.ru',
+        password: '123'
+    }, {
+        id: '2',
+        email: "sveta@mail.ru",
+        password: "321"
+    }]
+
+    //persons.forEach(item => console.log(item))
+
+    form.onsubmit = function() {
+        let emptyInputs = Array.from(allInputs).filter(element => element.value == '');
+
+        allInputs.forEach(function(element) {
+            if (element.value == "") {
+                element.classList.add('error')
+
+            } else {
+                element.classList.remove('error')
+            }
+        })
+
+        if (emptyInputs.length !== 0) {
+            console.log('All inputs need to be filled in')
+            return false
+        }
+
+        let result;
+
+        function check(em, pass) {
+
+            //const hashedPassword = window.btoa(pass);
+            result = persons.findIndex((person) => {
+                    return (person.email == em) && (person.password == pass)
+                })
+                //return result => 0
+            console.log(result)
+        }
+        check(getEmail.value, getPassword.value)
+
+        if (result == -1) {
+            console.log('password incorrect')
+            button.classList.add('stop')
+            button.classList.remove('success')
+            button.innerHTML = "Error. Try again";
+            return false
+        } else {
+            console.log('success'), button.innerHTML = "Success!", button.classList.add('success'), form.reset();
+            return false
+        }
+    }
+</script>
